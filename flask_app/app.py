@@ -1,5 +1,5 @@
 from PIL import Image
-from config import AWS_ACCESS_KEY, AWS_SECRET_KEY, BUCKET_NAME
+from os import AWS_ACCESS_KEY, AWS_SECRET_KEY, BUCKET_NAME, X_OCR_SECRET
 from botocore.exceptions import ClientError
 from flask_cors import CORS
 from flask import Flask
@@ -38,7 +38,7 @@ def clovaocr_from_image():
     headers = {
         'Content-Type': 'application/json',
         'Accept': '*/*',
-        'X-OCR-SECRET' : 'Rkt3TldScmNRVWpnbW9Nakl0dkZIRkNXQkpaVWRlcHc='
+        'X-OCR-SECRET' : X_OCR_SECRET
 
     }
 
