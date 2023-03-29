@@ -68,13 +68,13 @@ jobs:
 
       # ec2에 소스코드 복사
       - name: copy source via ssh key
-      uses: burnett01/rsync-deployments@4.1
-      with:
-        switches: -avzr --delete
-        remote_path: /home/ubuntu/src/clova/
-        remote_host: ${{ secrets.HOST }}
-        remote_user: ubuntu
-        remote_key: ${{ secrets.KEY }}
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -avzr --delete
+          remote_path: /home/ubuntu/src/clova/
+          remote_host: ${{ secrets.HOST }}
+          remote_user: ubuntu
+          remote_key: ${{ secrets.KEY }}
 
       # EC2 접속 & 서버 올리기
       - name: Executing remote ssh commands using password
