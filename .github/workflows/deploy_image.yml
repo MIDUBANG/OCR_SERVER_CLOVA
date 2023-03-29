@@ -28,13 +28,19 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
-      - name: Build and push
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/clova:latest
+      # - name: Build and push
+      #   id: docker_build
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     push: true
+      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/clova:latest
       
+      # Docker-compose build & push
+      - name: Docker Compose build & push
+        run: |
+          docker-compose build
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/clova:latest
+
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
 
@@ -76,9 +82,10 @@ jobs:
           key: ${{ secrets.KEY }}
           port: 22
           script: |
-            sudo docker-compuse pull
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/clova:latest
             sudo docker-compose up -d
-      
+            sudo docker image prune -f
+
       # EC2 보안그룹에서 추가한 ip 삭제
       - name: Remove Github Actions IP from Security Group
         run: |
