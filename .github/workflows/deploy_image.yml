@@ -39,7 +39,8 @@ jobs:
       - name: Docker Compose build & push
         run: |
           docker-compose build
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/ocr_server_clova_nginx:latest
+          docker images
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/ocr_server_clova_nginx
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
