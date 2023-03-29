@@ -63,7 +63,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ubuntu
-          key: ${{ secrets.KEY }}
+          key: ${{ secrets.PRIVATE_KEY }}
           script: mkdir -p /home/ubuntu/src/clova
 
       # ec2에 소스코드 복사
@@ -74,7 +74,7 @@ jobs:
           remote_path: /home/ubuntu/src/clova/
           remote_host: ${{ secrets.HOST }}
           remote_user: ubuntu
-          remote_key: ${{ secrets.KEY }}
+          remote_key: ${{ secrets.PRIVATE_KEY }}
 
       # EC2 접속 & 서버 올리기
       - name: Executing remote ssh commands using password
@@ -82,7 +82,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ubuntu
-          key: ${{ secrets.KEY }}
+          key: ${{ secrets.PRIVATE_KEY }}
           port: 22
           script: |
             sh /home/ubuntu/src/clova/run_docker.sh
