@@ -13,9 +13,9 @@ import os
 import requests
 import json
 import jsonpickle
-import dotenv
+from dotenv import load_dotenv, find_dotenv
 
-dotenv.load_dotenv()
+
 
 server = Flask(__name__)
 server.config['JSON_AS_ASCII'] = False
@@ -31,6 +31,7 @@ S3_LOCATION = f"http://${BUCKET_NAME}.s3.amazonaws.com/"
 
 @server.route("/api/ocr", methods=["POST"])
 def clovaocr_from_image():
+    load_dotenv(find_dotenv())
     image = request.files['image']
     user_id = request.form['id']
     
