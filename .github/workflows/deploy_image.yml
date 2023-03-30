@@ -79,10 +79,11 @@ jobs:
 
       - name: Generate Environment Variables File
         run: |
-        echo "AWS_ACCESS_KEY=$AWS_ACCESS_KEY" >> .env
-        ehco "AWS_SECRET_KEY=$AWS_SECRET_KEY" >> .env
-        ehco "BUCKET_NAME=$BUCKET_NAME" >> .env
-        ehco "X_OCR_SECRET=$X_OCR_SECRET" >> .env
+          touch /home/ubuntu/src/clova/.env
+          echo "AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}" >> /home/ubuntu/src/clova/.env
+          echo "AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}" >> /home/ubuntu/src/clova/.env
+          echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" >> /home/ubuntu/src/clova/.env
+          echo "X_OCR_SECRET=${{ secrets.X_OCR_SECRET }}" >> /home/ubuntu/src/clova/.env
 
       # EC2 접속 & 서버 올리기
       - name: Executing remote ssh commands using password
