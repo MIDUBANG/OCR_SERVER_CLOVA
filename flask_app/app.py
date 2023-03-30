@@ -24,10 +24,9 @@ CORS(server)
 
 AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY")
 AWS_SECRET_KEY = os.getenv("AWS_SECRET_KEY")
-BUCKET_NAME = os.getenv("BUCKET_NAME")
 X_OCR_SECRET = os.getenv("X_OCR_SECRET")
 
-S3_LOCATION = f"http://${BUCKET_NAME}.s3.amazonaws.com/"
+S3_LOCATION = f"http://midubang-s3.s3.amazonaws.com/"
 
 @server.route("/api/ocr", methods=["POST"])
 def clovaocr_from_image():
@@ -103,7 +102,7 @@ def upload_image(image, imgpath, user_id):
     
         s3 = s3_connection()
         # s3.put_object(Bucket=BUCKET_NAME, Body=image, Key=image.filename)
-        s3.upload_file(imgpath, BUCKET_NAME, image.filename,ExtraArgs={
+        s3.upload_file(imgpath, "midubang-s3", image.filename,ExtraArgs={
                 "ACL": "public-read",
                 "ContentType": image.content_type
             } )
