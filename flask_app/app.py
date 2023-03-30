@@ -1,5 +1,5 @@
 from PIL import Image
-import os
+from config import AWS_ACCESS_KEY, AWS_SECRET_KEY, X_OCR_SECRET
 from botocore.exceptions import ClientError
 from flask_cors import CORS
 from flask import Flask
@@ -22,9 +22,6 @@ server.config['JSON_AS_ASCII'] = False
 
 CORS(server)
 
-AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY")
-AWS_SECRET_KEY = os.getenv("AWS_SECRET_KEY")
-X_OCR_SECRET = os.getenv("X_OCR_SECRET")
 
 S3_LOCATION = f"http://midubang-s3.s3.amazonaws.com/"
 
@@ -64,7 +61,7 @@ def clovaocr_from_image():
             "version": "V1"
     }
 
-    clova_url =  "https://g762ivic4j.apigw.ntruss.com/custom/v1/21243/84ed7d79adb3076b1861867a025ee84784c8542c4a15f9caed53ff4719a1b92c/general"
+    clova_url =  "https://g762ivic4j.apigw.ntruss.com/custom/v1/21472/7c50f467463caa6b09d883d04208f2266ca3abf653480b4b0f93a460562499c6/general"
 
     res = requests.post(clova_url, json=requestJson, headers=headers)
     result = res.json()
