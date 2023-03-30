@@ -7,6 +7,7 @@ on:
 permissions:
   contents: read
 
+
 jobs:
   ci-cd:
     runs-on: ubuntu-latest
@@ -79,18 +80,45 @@ jobs:
       # EC2 접속 & 서버 올리기
       - name: Executing remote ssh commands using password
         uses: appleboy/ssh-action@v0.1.6
+        env:
+          AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+          BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+          X_OCR_SECRET: ${{ secrets.X_OCR_SECRET }}
         with:
           host: ${{ secrets.HOST }}
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           port: 22
-          with: 
-            AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-            AWS_SECRET_KEY: ${{secrets.AWS_SECRET_KEY}}
-            BUCKET_NAME: ${{secrets.BUCKET_NAME}}
-            X_OCR_SECRET: ${{secrets.X_OCR_SECRET}}
+          envs: 
+            AWS_ACCESS_KEY,AWS_SECRET_KEY,BUCKET_NAME,X_OCR_SECRET
           script: |
+            echo "my aws's bucket_name is ${{ secrets.BUCKET_NAME }}"
+            export AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}
+            export AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
+            export BUCKET_NAME=${{ secrets.BUCKET_NAME }}
+            export X_OCR_SECRET=${{ secrets.X_OCR_SECRET }}
             sh /home/ubuntu/src/clova/run_docker.sh
+
+      # - name: define secrets injected to docker
+      #   run: |
+      #     docker swarm init
+      #     printf ${{ secrets.AWS_ACCESS_KEY }} | docker secret create AWS_ACCESS_KEY -
+      #     printf ${{ secrets.AWS_SECRET_KEY }} | docker secret create AWS_SECRET_KEY -
+      #     printf ${{ secrets.BUCKET_NAME }} | docker secret create BUCKET_NAME -
+      #     printf ${{ secrets.X_OCR_SECRET }} | docker secret create X_OCR_SECRET -
+
+
+      # - name: Docker-compose up
+      #   uses: isbang/compose-action@v1.4.1
+      #   with:
+      #     compose-file: "./docker-compose.yml"
+      #     up-flags: "--build"
+      #   env:
+      #     AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+      #     AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+      #     BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+      #     X_OCR_SECRET: ${{ secrets.X_OCR_SECRET }}
 
       # EC2 보안그룹에서 추가한 ip 삭제
       - name: Remove Github Actions IP from Security Group

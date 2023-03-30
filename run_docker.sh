@@ -26,6 +26,11 @@ then
 fi
 
 echo "start docker-compose up: ubuntu"
+echo "i'm in bash file. my bucket name is ${AWS_ACCESS_KEY}"
+AWS_ACCESS_KEY = $AWS_ACCESS_KEY
+AWS_SECRET_KEY = $AWS_SECRET_KEY
+BUCKET_NAME = $BUCKET_NAME
+X_OCR_SECRET = $X_OCR_SECRET
 sudo docker-compose -f /home/ubuntu/src/clova/docker-compose.yml up --build -d 
 
 

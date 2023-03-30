@@ -1,5 +1,5 @@
 from PIL import Image
-from os import AWS_ACCESS_KEY, AWS_SECRET_KEY, BUCKET_NAME, X_OCR_SECRET
+import os
 from botocore.exceptions import ClientError
 from flask_cors import CORS
 from flask import Flask
@@ -19,7 +19,12 @@ server.config['JSON_AS_ASCII'] = False
 
 CORS(server)
 
-S3_LOCATION = f"http://{BUCKET_NAME}.s3.amazonaws.com/"
+AWS_ACCESS_KEY = os.environ.get("AWS_ACCESS_KEY")
+AWS_SECRET_KEY = os.environ.get("AWS_SECRET_KEY")
+BUCKET_NAME = os.environ.get("BUCKET_NAME")
+X_OCR_SECRET = os.environ.get("X_OCR_SECRET")
+
+S3_LOCATION = f"http://${BUCKET_NAME}.s3.amazonaws.com/"
 
 @server.route("/api/ocr", methods=["POST"])
 def clovaocr_from_image():
@@ -38,7 +43,7 @@ def clovaocr_from_image():
     headers = {
         'Content-Type': 'application/json',
         'Accept': '*/*',
-        'X-OCR-SECRET' : X_OCR_SECRET
+        'X-OCR-SECRET' :X_OCR_SECRET
 
     }
 
