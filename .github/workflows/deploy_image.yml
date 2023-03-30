@@ -77,6 +77,13 @@ jobs:
           remote_user: ubuntu
           remote_key: ${{ secrets.PRIVATE_KEY }}
 
+      - name: Generate Environment Variables File
+        run: |
+        echo "AWS_ACCESS_KEY=$AWS_ACCESS_KEY" >> .env
+        ehco "AWS_SECRET_KEY=$AWS_SECRET_KEY" >> .env
+        ehco "BUCKET_NAME=$BUCKET_NAME" >> .env
+        ehco "X_OCR_SECRET=$X_OCR_SECRET" >> .env
+
       # EC2 접속 & 서버 올리기
       - name: Executing remote ssh commands using password
         uses: appleboy/ssh-action@v0.1.6

@@ -10,6 +10,8 @@ services:
       AWS_ACCESS_KEY: ${AWS_SECRET_KEY}
       BUCKET_NAME: ${BUCKET_NAME}
       X_OCR_SECRET: ${X_OCR_SECRET}
+    env_file:
+      - .env
     ports:
       - "8000:8000"
     command: gunicorn -w 1 -b 0.0.0.0:8000 wsgi:server

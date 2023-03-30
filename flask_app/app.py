@@ -13,16 +13,19 @@ import os
 import requests
 import json
 import jsonpickle
+import dotenv
+
+dotenv.load_dotenv()
 
 server = Flask(__name__)
 server.config['JSON_AS_ASCII'] = False
 
 CORS(server)
 
-AWS_ACCESS_KEY = os.environ.get("AWS_ACCESS_KEY")
-AWS_SECRET_KEY = os.environ.get("AWS_SECRET_KEY")
-BUCKET_NAME = os.environ.get("BUCKET_NAME")
-X_OCR_SECRET = os.environ.get("X_OCR_SECRET")
+AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY")
+AWS_SECRET_KEY = os.getenv("AWS_SECRET_KEY")
+BUCKET_NAME = os.getenv("BUCKET_NAME")
+X_OCR_SECRET = os.getenv("X_OCR_SECRET")
 
 S3_LOCATION = f"http://${BUCKET_NAME}.s3.amazonaws.com/"
 
