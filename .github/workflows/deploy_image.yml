@@ -84,6 +84,11 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           port: 22
+          with: 
+            AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+            AWS_SECRET_KEY: ${{secrets.AWS_SECRET_KEY}}
+            BUCKET_NAME: ${{secrets.BUCKET_NAME}}
+            X_OCR_SECRET: ${{secrets.X_OCR_SECRET}}
           script: |
             sh /home/ubuntu/src/clova/run_docker.sh
 

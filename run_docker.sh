@@ -26,7 +26,7 @@ then
 fi
 
 echo "start docker-compose up: ubuntu"
-sudo docker-compose -f /home/ubuntu/src/clova/docker-compose.yml up --build -d --build-arg "AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}" --build-arg "AWS_SECRET_KEY=${{secrets.AWS_SECRET_KEY}}" --build-arg "BUCKET_NAME=${{secrets.BUCKET_NAME}}" --build-arg "X_OCR_SECRET=${{secrets.X_OCR_SECRET}}"
+sudo docker-compose -f /home/ubuntu/src/clova/docker-compose.yml up --build -d 
 
 
 # echo building docker containers
