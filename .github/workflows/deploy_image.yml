@@ -19,6 +19,14 @@ jobs:
       
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
+
+      - name: Generate Environment Variables File
+        run: |
+          touch .env
+          echo "AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}" >> .env
+          echo "AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}" >> .env
+          echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" >> .env
+          echo "X_OCR_SECRET=${{ secrets.X_OCR_SECRET }}" >> .env
       
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -77,29 +85,22 @@ jobs:
           remote_user: ubuntu
           remote_key: ${{ secrets.PRIVATE_KEY }}
 
-      - name: Generate Environment Variables File
-        run: |
-          touch /home/ubuntu/src/clova/.env
-          echo "AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}" >> /home/ubuntu/src/clova/.env
-          echo "AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}" >> /home/ubuntu/src/clova/.env
-          echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" >> /home/ubuntu/src/clova/.env
-          echo "X_OCR_SECRET=${{ secrets.X_OCR_SECRET }}" >> /home/ubuntu/src/clova/.env
 
       # EC2 접속 & 서버 올리기
       - name: Executing remote ssh commands using password
         uses: appleboy/ssh-action@v0.1.6
-        env:
-          AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-          AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
-          BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
-          X_OCR_SECRET: ${{ secrets.X_OCR_SECRET }}
+        # env:
+        #   AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+        #   AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+        #   BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+        #   X_OCR_SECRET: ${{ secrets.X_OCR_SECRET }}
         with:
           host: ${{ secrets.HOST }}
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           port: 22
-          envs: 
-            AWS_ACCESS_KEY,AWS_SECRET_KEY,BUCKET_NAME,X_OCR_SECRET
+          # envs: 
+          #   AWS_ACCESS_KEY,AWS_SECRET_KEY,BUCKET_NAME,X_OCR_SECRET
           script: |
             echo "my aws's bucket_name is ${{ secrets.BUCKET_NAME }}"
             export AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}
